@@ -10,6 +10,7 @@ public class WeatherForecastController : ControllerBase
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
+    
 
     private readonly ILogger<WeatherForecastController> _logger;
 
@@ -21,12 +22,19 @@ public class WeatherForecastController : ControllerBase
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
-        _logger.LogInfo("GET /GetWeatherForecast");
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        return Enumerable.Range(1, 10).Select(index => new WeatherForecast
         {
             Date = DateTime.Now.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            TemperatureForecast = new TemperatureForecast() {
+                Minimum = Random.Shared.Next(-4, 50),
+                Maximum = Random.Shared.Next(10, 60)
+            },
+            Summary = Summaries[Random.Shared.Next(Summaries.Length)],
+            HumidityForecast = new HumidityForecast(){
+                Minimum = Random.Shared.Next (0,50),
+                Maximum = Random.Shared.Next (50,100)
+            },
+            AtmosphericPressure = Random.Shared.Next (1,50),
         })
         .ToArray();
     }
